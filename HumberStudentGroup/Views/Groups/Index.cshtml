@@ -1,0 +1,71 @@
+﻿@model IEnumerable<HumberStudentGroup.ADO.Group>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutGroup.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    } else
+    {
+        ViewBag.UserId = Session["UserId"];
+    }
+}
+
+<style>
+    .searchField {
+        border: 2px solid black;
+        border-radius: 20px;
+        font-size: 1.5rem;
+        padding-left: 20px;
+    }
+
+    input.SearchTerm:active, input.SearchTerm:focus {
+        border: 2px solid green;
+    }
+
+    .searchBar {
+        font-size: 1.5rem;
+    }
+</style>
+
+<h2>Humber Study Groups</h2>
+<div style="padding-bottom: 5px;">
+    <input type="button" class="btn btn-success" value="Create Group" onclick="location.href='@Url.Action("Create", "Groups")'" />
+    <input type="button" class="btn btn-danger" value="Sign Out" onclick="location.href='@Url.Action("Signout", "Users")'" />
+</div>
+
+<form asp-controller="TEST" asp-action="Index" method="get">
+    <p class="searchBar">
+        <b>Search: </b><input class="searchField" type="text" name="SearchTerm" placeholder="Enter a Key word"/>
+        <input type="submit" value="Filter" class="btn btn-primary"/>
+        <input type="submit" value="Clear" class="btn btn-danger"/>
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Title)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Desc)</th>
+            <th scope="col">@Html.DisplayName("Member Count")</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Desc)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Desc)</td>
+                <td>@Html.DisplayFor(modelItem => item.Users.Count)</td>
+                <td>
+                    <input type="button" class="btn btn-info" value="View Group" onclick="location.href='@Url.Action("Details", "Groups", new { id = item.Id })'" />
+                    <input type="button" class="btn btn-warning" value="Edit Group" onclick="location.href='@Url.Action("Edit", "Groups", new { id = item.Id })'" />
+                    <input type="button" class="btn btn-danger" value="Delete Group" onclick="location.href='@Url.Action("Delete", "Groups", new { id = item.Id })'" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

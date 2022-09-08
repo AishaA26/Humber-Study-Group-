@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<style>
+    body {
+        padding: 100px;
+    }
+</style>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            color: #000033;
+            background-color: white;
+            font-family: Open Sans ExtraBold;
+        }
+        .form-control text-box single-line {
+            border-radius: 2rem;
+        }
+    </style>
+</head>
+<body>
+    @Html.Partial("_Nav")
+        @RenderBody()
+        <footer>
+            <p></p>
+        </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<HumberStudentGroup.ADO.Group>
+
+@{
+    Layout = "~/Views/Shared/_LayoutGroup.cshtml";
+}
+
+<style>
+    .leftSide-buttonDiv {
+        padding-top: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .rightSide-buttonDiv {
+        padding-bottom: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn {
+        border-radius: 15px;
+    }
+
+    .btn-signin {
+        margin: auto;
+        width: 60%;
+    }
+
+    .btn-create {
+        margin: auto;
+        width: 80%;
+    }
+
+    .HumberIMG {
+        border-radius: 5px;
+        border: 10px solid #CC9900;
+        width: 100%;
+        height: 450px;
+    }
+
+    .ImgSection {
+        padding: 25px;
+    }
+</style>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Homepage</title>
+</head>
+<body>
+    <small style="float: right; position: relative;padding: 5px;">@ViewBag.UserLoggedinMessage</small>
+    <h1>Welcome to HumberGroups</h1>
+    <div style=" padding-top: 25px;">
+        <div style="float: left; width: 30%;">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est laborum.
+            </p>
+            <div class="leftSide-buttonDiv">
+                @Html.ActionLink("Create Account", "Create", "Users", null, new { @class = "btn btn-primary btn-large btn-create" })
+            </div>
+        </div>
+        <div style="float: right; width: 40%;">
+            <div class="rightSide-buttonDiv">
+                @if (Session["UserId"] == null)
+                {
+                    @Html.ActionLink("Sign in", "Index", "Login", null, new { @class = "btn btn-success btn-large btn-signin" })
+                }
+                else
+                {
+                    @Html.ActionLink("Sign Out", "Signout", "Users", null, new { @class = "btn btn-danger btn-large btn-signin" })
+                }
+            </div>
+            <p>
+                Lorem ipsum dolor sit amet, ipsum praesent est et, id sed libris latine delicatissimi, per stet illum praesent ad.
+                Ut vix error inermis. Quo noster insolens deseruisse eu, doctus maluisset referrentur ex est, at nam munere dissentiunt.
+                Ius cu invidunt lobortis indoctum, usu id omnis illum docendi, nobis consul ei pri. Te etiam discere ius, ne vero
+                intellegam per, justo verterem necessitatibus usu ad. Ne mel ullum errem forensibus.Ius ut mollis deterruisset,
+                consul admodum eleifend est ad, pri ne possit referrentur. Errem clita mea at, eum exerci pertinacia id, ut vis debet eligendi deleniti.
+            </p>
+            <p>
+                Eu mei hinc dolores intellegat, ea elitr eruditi evertitur vel. Sit novum everti rationibus id, nisl malis fugit usu ex, sit affert eruditi
+                scribentur in. Cu soleat postea graeco usu, indoctum intellegat ex eum. Expetendis suscipiantur ad mea.
+            </p>
+        </div>
+    </div>
+    <div class="ImgSection">
+        <img src="https://humber.ca/brand/sites/default/files/styles/photo_of_campus/public/images/campus/32911.jpg?itok=RnsbpXyu" class="HumberIMG"/>
+    </div>
+</body>
+</html>

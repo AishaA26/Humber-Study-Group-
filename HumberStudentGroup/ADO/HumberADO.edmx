@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HumberDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="HumberDBModelStoreContainer">
+    <EntitySet Name="Groups" EntityType="HumberDBModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="HumberDBModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Chats" EntityType="HumberDBModel.Store.Chats" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Messages" EntityType="HumberDBModel.Store.Messages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Posts" EntityType="HumberDBModel.Store.Posts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupUser" EntityType="HumberDBModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PostGroup" EntityType="HumberDBModel.Store.PostGroup" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_GroupUser_Group" Association="HumberDBModel.Store.FK_GroupUser_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUser_User" Association="HumberDBModel.Store.FK_GroupUser_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="ChatGroup" Association="HumberDBModel.Store.ChatGroup">
+      <End Role="Chat" EntitySet="Chats" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="MessageChat" Association="HumberDBModel.Store.MessageChat">
+      <End Role="Message" EntitySet="Messages" />
+      <End Role="Chat" EntitySet="Chats" />
+    </AssociationSet>
+    <AssociationSet Name="MessageUser" Association="HumberDBModel.Store.MessageUser">
+      <End Role="Message" EntitySet="Messages" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="PostUser" Association="HumberDBModel.Store.PostUser">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostGroup_Post" Association="HumberDBModel.Store.FK_PostGroup_Post">
+      <End Role="Post" EntitySet="Posts" />
+      <End Role="PostGroup" EntitySet="PostGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostGroup_Group" Association="HumberDBModel.Store.FK_PostGroup_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="PostGroup" EntitySet="PostGroup" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Desc" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AuthorId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Chats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Group_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Messages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChatId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="SentDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Posts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupUser">
+    <Key>
+      <PropertyRef Name="Groups_Id" />
+      <PropertyRef Name="Users_Id" />
+    </Key>
+    <Property Name="Groups_Id" Type="int" Nullable="false" />
+    <Property Name="Users_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PostGroup">
+    <Key>
+      <PropertyRef Name="Posts_Id" />
+      <PropertyRef Name="Groups_Id" />
+    </Key>
+    <Property Name="Posts_Id" Type="int" Nullable="false" />
+    <Property Name="Groups_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ChatGroup">
+    <End Role="Chat" Type="HumberDBModel.Store.Chats" Multiplicity="*" />
+    <End Role="Group" Type="HumberDBModel.Store.Groups" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chat">
+        <PropertyRef Name="Group_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MessageChat">
+    <End Role="Message" Type="HumberDBModel.Store.Messages" Multiplicity="*" />
+    <End Role="Chat" Type="HumberDBModel.Store.Chats" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Chat">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="ChatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MessageUser">
+    <End Role="Message" Type="HumberDBModel.Store.Messages" Multiplicity="*" />
+    <End Role="User" Type="HumberDBModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PostUser">
+    <End Role="Post" Type="HumberDBModel.Store.Posts" Multiplicity="*" />
+    <End Role="User" Type="HumberDBModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_Group">
+    <End Role="Group" Type="HumberDBModel.Store.Groups" Multiplicity="1" />
+    <End Role="GroupUser" Type="HumberDBModel.Store.GroupUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_User">
+    <End Role="GroupUser" Type="HumberDBModel.Store.GroupUser" Multiplicity="*" />
+    <End Role="User" Type="HumberDBModel.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostGroup_Post">
+    <End Role="Post" Type="HumberDBModel.Store.Posts" Multiplicity="1" />
+    <End Role="PostGroup" Type="HumberDBModel.Store.PostGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostGroup">
+        <PropertyRef Name="Posts_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostGroup_Group">
+    <End Role="PostGroup" Type="HumberDBModel.Store.PostGroup" Multiplicity="*" />
+    <End Role="Group" Type="HumberDBModel.Store.Groups" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PostGroup">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HumberDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthorId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="HumberDBModel.GroupUser" FromRole="Group" ToRole="User" />
+          <NavigationProperty Name="Chat" Relationship="HumberDBModel.ChatGroup" FromRole="Group" ToRole="Chat" />
+          <NavigationProperty Name="Posts" Relationship="HumberDBModel.PostGroup" FromRole="Group" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="HumberDBModel.GroupUser" FromRole="User" ToRole="Group" />
+          <NavigationProperty Name="Messages" Relationship="HumberDBModel.MessageUser" FromRole="User" ToRole="Message" />
+          <NavigationProperty Name="Posts" Relationship="HumberDBModel.PostUser" FromRole="User" ToRole="Post" />
+          <Property Name="Type" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="HumberDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="GroupUser" Association="HumberDBModel.GroupUser">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Chats" EntityType="HumberDBModel.Chat" />
+          <AssociationSet Name="ChatGroup" Association="HumberDBModel.ChatGroup">
+            <End EntitySet="Chats" Role="Chat" />
+            <End EntitySet="Groups" Role="Group" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="HumberDBModel.Message" />
+          <AssociationSet Name="MessageChat" Association="HumberDBModel.MessageChat">
+            <End EntitySet="Messages" Role="Message" />
+            <End EntitySet="Chats" Role="Chat" />
+          </AssociationSet>
+          <AssociationSet Name="MessageUser" Association="HumberDBModel.MessageUser">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Posts" EntityType="HumberDBModel.Post" />
+          <AssociationSet Name="PostUser" Association="HumberDBModel.PostUser">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="PostGroup" Association="HumberDBModel.PostGroup">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="GroupUser">
+          <End Type="HumberDBModel.Group" Role="Group" Multiplicity="*" />
+          <End Type="HumberDBModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Chat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="HumberDBModel.ChatGroup" FromRole="Chat" ToRole="Group" />
+          <NavigationProperty Name="Messages" Relationship="HumberDBModel.MessageChat" FromRole="Chat" ToRole="Message" />
+        </EntityType>
+        <Association Name="ChatGroup">
+          <End Type="HumberDBModel.Chat" Multiplicity="1" Role="Chat" />
+          <End Type="HumberDBModel.Group" Multiplicity="1" Role="Group" />
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Chat" Relationship="HumberDBModel.MessageChat" FromRole="Message" ToRole="Chat" />
+          <Property Name="ChatId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="HumberDBModel.MessageUser" FromRole="Message" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SentDate" Type="String" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="MessageChat">
+          <End Type="HumberDBModel.Message" Multiplicity="*" Role="Message" />
+          <End Type="HumberDBModel.Chat" Multiplicity="1" Role="Chat" />
+          <ReferentialConstraint>
+            <Principal Role="Chat">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ChatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MessageUser">
+          <End Type="HumberDBModel.Message" Role="Message" Multiplicity="*" />
+          <End Type="HumberDBModel.User" Role="User" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Body" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="HumberDBModel.PostUser" FromRole="Post" ToRole="User" />
+          <NavigationProperty Name="Groups" Relationship="HumberDBModel.PostGroup" FromRole="Post" ToRole="Group" />
+        </EntityType>
+        <Association Name="PostUser">
+          <End Type="HumberDBModel.Post" Role="Post" Multiplicity="*" />
+          <End Type="HumberDBModel.User" Role="User" Multiplicity="1" />
+        </Association>
+        <Association Name="PostGroup">
+          <End Type="HumberDBModel.Post" Role="Post" Multiplicity="*" />
+          <End Type="HumberDBModel.Group" Role="Group" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HumberDBModelStoreContainer" CdmEntityContainer="HumberDBEntities">
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(HumberDBModel.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(HumberDBModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Chats">
+      <EntityTypeMapping TypeName="IsTypeOf(HumberDBModel.Chat)">
+        <MappingFragment StoreEntitySet="Chats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(HumberDBModel.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ChatId" ColumnName="ChatId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Posts">
+      <EntityTypeMapping TypeName="IsTypeOf(HumberDBModel.Post)">
+        <MappingFragment StoreEntitySet="Posts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GroupUser" TypeName="HumberDBModel.GroupUser" StoreEntitySet="GroupUser">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChatGroup" TypeName="HumberDBModel.ChatGroup" StoreEntitySet="Chats">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Group_Id" />
+      </EndProperty>
+      <EndProperty Name="Chat">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PostUser" TypeName="HumberDBModel.PostUser" StoreEntitySet="Posts">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Post">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PostGroup" TypeName="HumberDBModel.PostGroup" StoreEntitySet="PostGroup">
+      <EndProperty Name="Post">
+        <ScalarProperty Name="Id" ColumnName="Posts_Id" />
+      </EndProperty>
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

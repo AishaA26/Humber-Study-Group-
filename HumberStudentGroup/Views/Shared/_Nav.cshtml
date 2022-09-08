@@ -1,0 +1,70 @@
+﻿
+@{  
+    if (Session["AdminView"] != null)
+    {
+        ViewBag.AdminMessage = "Admin access";
+    }
+    if (Session["Username"] != null)
+    {
+        //ViewBag.UserLoggedinMessage = "Currently Signed In as " + Session["Username"];
+    }
+}
+
+<style>
+    body {
+        color: #000033;
+        background-color: white;
+        font-family: Open Sans ExtraBold;
+    }
+
+    .navbar-brand {
+        font-size: 3rem;
+    }
+
+        .navbar-brand:hover {
+            text-decoration: underline;
+        }
+
+    .navbar-inverse .navbar-nav > li > a {
+        text-decoration: none;
+        font-size: 2em;
+        color: #0097A9;
+    }
+
+        .navbar-inverse .navbar-nav > li > a:hover {
+            text-decoration: underline;
+            color: #009BE0;
+        }
+
+    .navbar {
+        background-color: #000033;
+        padding-bottom: 0;
+    }
+</style>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="pull-left"><img width="32" src="https://play-lh.googleusercontent.com/If5h6y3M0SkncS1K2UBm6nqGIO0gCxBg6qhudY1k42-EzSSVWUNCigDFWLXiyzDI0oAk"></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("HumberGroups", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color: #CC9900;" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" style="color: white;">
+                <li>@Html.ActionLink("See Groups", "Index", "Groups")</li>
+                <li>@Html.ActionLink("Search", "Index", "Search")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("See Members", "Index", "Users")</li>
+                <li>@Html.ActionLink("See Posts", "Index", "Posts")</li>
+           </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <p style="float: right; color:red; position: relative;padding: 5px;">@ViewBag.AdminMessage</p>
+    <p style="float: right; color:black; position: relative;padding: 5px;">@ViewBag.UserLoggedinMessage</p>
+</div>

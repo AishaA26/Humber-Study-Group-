@@ -1,0 +1,125 @@
+﻿@model HumberStudentGroup.ADO.Group
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutGroup.cshtml";
+    if (Session["UserId"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+    else
+    {
+        ViewBag.UserId = Session["UserId"];
+    }
+}
+
+<style>
+    .layout {
+        margin: 10px;
+    }
+
+    .group-header{
+        margin-left: 25px;
+    }
+
+    .group-posts {
+        width: 50%;
+        display: inline-block;
+    }
+
+    .post {
+        background-color: #123456;
+        border-radius: 2rem;
+        width: 200px;
+        height: max-content;    
+        display: inline-block;
+        margin: 25px;
+        padding: 25px;
+    }
+
+    .post h1 {
+        font-size: medium;
+        color: aliceblue;
+        text-decoration: underline;
+        top: 0;
+
+    }
+
+    .post p {
+            margin-top: 20px;
+            color: gainsboro;
+    }
+    .left-side {
+        padding-left: 25px;
+    }
+
+</style>
+
+
+<div class="layout">
+    <div style="float: right; bottom: 90%">
+        <p>
+            @if (@Model.AuthorId == ViewBag.UserId)
+            {
+                <input type="button" class="btn btn-warning" value="Edit Group" onclick="location.href='@Url.Action("Edit", "Groups", new { id = Model.Id })'" />
+            }
+            else
+            {
+                if (@Model.Users.Any(u => u.Id == ViewBag.UserId))
+                {
+                    <input type="button" class="btn btn-danger" value="Leave Group" onclick="location.href='@Url.Action("Leave", "Groups", new { id = Model.Id })'" />
+                }
+                else
+                {
+                    <input type="button" class="btn btn-success" value="Join Group" onclick="location.href='@Url.Action("Join", "Groups", new { id = Model.Id })'" />
+                }
+            }
+            <input type="button" class="btn btn-primary" value="Go Back" onclick="location.href='@Url.Action("Index", "Groups")'" />
+        </p>
+        <div style="padding-top: 25px">
+            @Html.Partial("_Chat", Model.Chat)
+        </div
+        <div class="group-members">
+            <div>
+                <input type="button" class="btn btn-success" value="Create Group Post" onclick="location.href='@Url.Action("Create", "Posts", new { groupId = Model.Id })'" />
+                <input type="button" class="btn btn-success" value="Join Group" onclick="location.href='@Url.Action("Join", "Groups", null)'" />
+            </div>
+            <h4>Members Of Group</h4>
+            <ul style="list-style:none">
+                @foreach (var user in Model.Users)
+                {
+                    <li>@user.Username</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="left-side">
+        <div class="group-header">
+            <div>
+                <h2>@Model.Title - Group</h2>
+            </div>
+            <i>@Model.Desc</i>
+            <p>Group Owner: @ViewBag.Author</p>
+        </div>
+
+
+
+        <div class="group-posts">
+            <h1 style="text-align: left">Group Posts</h1>
+            <ul>
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="post">
+                        <h1>@post.Title</h1>
+                        <div>
+                            <p>@post.Body</p>
+                            <p>Author: @post.User.Username</p>
+                            <input type="button" class="btn btn-danger" value="Delete Post" onclick="location.href='@Url.Action("Delete", "Posts", new { id = post.Id })'" />
+                        </div>
+                    </div>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
